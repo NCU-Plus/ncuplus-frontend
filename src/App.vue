@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col">
-    <NavBar />
+    <Navbar />
     <router-view></router-view>
-    <Footer />
+    <PageFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import NavBar from "./components/NavBar.vue";
-import Footer from "./components/Footer.vue";
+import Navbar from "./components/Navbar.vue";
+import PageFooter from "./components/PageFooter.vue";
 </script>

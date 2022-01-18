@@ -10,3 +10,5 @@
     </div>
   </footer>
 </template>
+
+<script lang="ts"></script>

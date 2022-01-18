@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <div
     class="fixed flex justify-between h-12 w-full font-sans text-lg bg-sky-400 text-white"
@@ -19,3 +17,4 @@
     </ul>
   </div>
 </template>
+<script lang="ts"></script>
