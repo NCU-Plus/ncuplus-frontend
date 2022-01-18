@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed flex justify-between h-12 w-full font-sans text-lg bg-sky-400 text-white"
+    class="fixed flex justify-between h-12 w-full font-sans text-lg bg-sky-400 text-white z-50"
   >
     <ul class="flex ml-96">
       <li class="h-full w-24 text-center flex justify-center">
