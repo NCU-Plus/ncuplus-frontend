@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="w-screen h-screen">
+    <div class="w-full h-screen">
       <slot></slot>
     </div>
   </header>
