@@ -5,7 +5,10 @@
     <div>© Copyright NCU+ 2022</div>
     <div class="flex ml-4 basis-12 justify-center">
       <a href="https://github.com/NCU-Plus/"
-        ><font-awesome-icon :icon="['fab', 'github-square']" size="2x"
+        ><font-awesome-icon
+          class="hover:text-sky-400 transition-colors duration-300"
+          :icon="['fab', 'github-square']"
+          size="2x"
       /></a>
     </div>
   </footer>
