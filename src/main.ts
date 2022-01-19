@@ -3,8 +3,7 @@ import App from "./App.vue";
 import "./assets/tailwind.css";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "~pages";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import "@/plugins/fontawesome-icons";
+import FontAwesomeIcon from "@/plugins/fontawesome-icons";
 
 const router = createRouter({
   history: createWebHistory(),
