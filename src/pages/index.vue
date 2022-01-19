@@ -17,7 +17,7 @@
       </div>
     </div>
   </fullpage-header>
-  <section class="h-screen w-full"></section>
+  <section class="h-screen w-full bg-white"></section>
   <section class="h-96 w-full bg-slate-800 flex items-center">
     <div class="h-4/5 w-full">
       <div class="center-container w-3/5 text-white text-center">
