@@ -32,5 +32,5 @@ jobs:
       with:
         branch: main
         folder: dist
-        token: ${{ secrets.GH_PAGE_SECRET }}
+        ssh-key: ${{ secrets.GH_PAGE_SECRET }}
         repository-name: NCU-Plus/ncu-plus.github.io
