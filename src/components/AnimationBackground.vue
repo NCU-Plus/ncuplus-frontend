@@ -12,35 +12,45 @@
 import { ref } from "vue";
 import TWEEN from "@tweenjs/tween.js";
 
+interface durationOptions {
+  enter: number;
+  leave: number;
+  stay: number;
+}
+
 const props = defineProps<{
   backgroundImages: string[];
+  duration: durationOptions;
 }>();
+
+const emit = defineEmits(["change"]);
 
 const backgroundIndex = ref(0);
 const backgroundOpacity = ref(1);
 
 const tween = new TWEEN.Tween({ opacity: 0 })
-  .to({ opacity: 1 }, 2000)
+  .to({ opacity: 1 }, props.duration.enter)
   .onUpdate(({ opacity }) => {
     backgroundOpacity.value = opacity;
   })
   .onComplete(() => {
     setTimeout(() => {
       tweenBack.start();
-    }, 2000);
+    }, props.duration.stay);
   });
 
 const tweenBack = new TWEEN.Tween({ opacity: 1 })
-  .to({ opacity: 0 }, 2000)
+  .to({ opacity: 0 }, props.duration.leave)
   .onUpdate(({ opacity }) => {
     backgroundOpacity.value = opacity;
   })
   .onComplete(() => {
     backgroundIndex.value =
       (backgroundIndex.value + 1) % props.backgroundImages.length;
+    emit("change", backgroundIndex.value);
     setTimeout(() => {
       tween.start();
-    }, 2000);
+    }, props.duration.stay);
   });
 
 tween.start();
