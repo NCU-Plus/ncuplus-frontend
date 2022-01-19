@@ -30,5 +30,7 @@ jobs:
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.2.2
       with:
-        branch: gh-pages
+        branch: main
         folder: dist
+        token: ${{ secrets.GH_PAGE_SECRET }}
+        repository-name: NCU-Plus/ncu-plus.github.io
