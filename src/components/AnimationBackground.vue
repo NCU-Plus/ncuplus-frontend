@@ -11,16 +11,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import TWEEN from "@tweenjs/tween.js";
-
-interface durationOptions {
-  enter: number;
-  leave: number;
-  stay: number;
-}
+import { DurationOptions } from "./DurationOptions";
 
 const props = defineProps<{
   backgroundImages: string[];
-  duration: durationOptions;
+  duration: DurationOptions;
 }>();
 
 const emit = defineEmits(["change"]);
