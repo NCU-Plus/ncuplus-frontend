@@ -2,7 +2,7 @@
   <fullpage-header class="bg-black">
     <animation-background
       :backgroundImages="backgroundImages"
-      :duration="{ enter: 1000, leave: 2000, stay: 8000 }"
+      :duration="{ enter: 1200, leave: 2000, stay: 8000,transfer: 200}"
     />
     <div class="absolute top-1/2 -translate-y-1/2 w-screen h-1/2 text-white">
       <div class="center-container w-3/5 flex">

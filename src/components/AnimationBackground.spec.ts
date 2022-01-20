@@ -9,7 +9,7 @@ describe("AnimationBackground test", () => {
     const wrapper = mount(AnimationBackground, {
       props: {
         backgroundImages: [img1, img2],
-        duration: { enter: 10, leave: 10, stay: 10 },
+        duration: { enter: 10, leave: 10, stay: 10, transfer: 10},
       },
     });
     const backgroundBlock = wrapper.find("div");
@@ -22,7 +22,7 @@ describe("AnimationBackground test", () => {
     const wrapper = mount(AnimationBackground, {
       props: {
         backgroundImages: [img1, img2],
-        duration: { enter: 100, leave: 100, stay: 100 },
+        duration: { enter: 100, leave: 100, stay: 100,transfer: 10 },
       },
     });
     const backgroundBlock = wrapper.find("div");
@@ -37,7 +37,7 @@ describe("AnimationBackground test", () => {
     const wrapper = mount(AnimationBackground, {
       props: {
         backgroundImages: [img1, img2],
-        duration: { enter: 100, leave: 100, stay: 100 },
+        duration: { enter: 100, leave: 100, stay: 100, transfer: 100 },
       },
     });
     await new Promise((resolve) => setTimeout(resolve, 350));
