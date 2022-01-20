@@ -45,7 +45,7 @@ const tweenBack = new TWEEN.Tween({ opacity: 1 })
     emit("change", backgroundIndex.value);
     setTimeout(() => {
       tween.start();
-    }, props.duration.stay);
+    }, props.duration.transfer);
   });
 
 tween.start();
