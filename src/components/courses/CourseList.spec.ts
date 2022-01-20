@@ -49,8 +49,71 @@ describe("CourseList test", () => {
     });
 
     for (const courseData of coursesData) {
-      const tr = wrapper.find(`#${courseData.semester + courseData.serialNo}`);
+      const tr = wrapper.find(
+        `#c${courseData.year}-${courseData.semester}-${courseData.serialNo}`
+      );
       expect(tr.exists()).toBe(true);
+    }
+  });
+  test("70 courses should have 3 page, and 25 per page", async () => {
+    const data: CourseData[] = [];
+    for (let i = 0; i < 70; i++) {
+      data.push({ ...coursesData[0], serialNo: i + 1 });
+    }
+    const wrapper = mount(CourseList, {
+      props: {
+        coursesData: data,
+      },
+    });
+    for (let i = 0; i < 70; i++) {
+      if (i !== 0 && i % 25 === 0) {
+        wrapper.find("li#go-next-page").trigger("click");
+        await nextTick();
+      }
+      const trExist = wrapper.find(
+        `tr#c${data[i].year}-${data[i].semester}-${data[i].serialNo}`
+      );
+      expect(trExist.exists()).toBe(true);
+      if (i > 25) {
+        const trNotExist = wrapper.find(
+          `tr#c${data[i - 25].year}-${data[i - 25].semester}-${
+            data[i - 25].serialNo
+          }`
+        );
+        expect(trNotExist.exists()).toBe(false);
+      }
+      if (i < 70 - 25) {
+        const trNotExist = wrapper.find(
+          `tr#c${data[i + 25].year}-${data[i + 25].semester}-${
+            data[i + 25].serialNo
+          }`
+        );
+        expect(trNotExist.exists()).toBe(false);
+      }
+    }
+    for (let i = 0; i < 70; i++) {
+      wrapper.find("input#page-input").setValue(Math.floor(i / 25) + 1);
+      await nextTick();
+      const trExist = wrapper.find(
+        `tr#c${data[i].year}-${data[i].semester}-${data[i].serialNo}`
+      );
+      expect(trExist.exists()).toBe(true);
+      if (i > 25) {
+        const trNotExist = wrapper.find(
+          `tr#c${data[i - 25].year}-${data[i - 25].semester}-${
+            data[i - 25].serialNo
+          }`
+        );
+        expect(trNotExist.exists()).toBe(false);
+      }
+      if (i < 70 - 25) {
+        const trNotExist = wrapper.find(
+          `tr#c${data[i + 25].year}-${data[i + 25].semester}-${
+            data[i + 25].serialNo
+          }`
+        );
+        expect(trNotExist.exists()).toBe(false);
+      }
     }
   });
 });
