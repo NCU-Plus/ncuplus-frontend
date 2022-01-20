@@ -2,7 +2,7 @@
   <fullpage-header class="bg-black">
     <animation-background
       :backgroundImages="backgroundImages"
-      :duration="{ enter: 1200, leave: 2000, stay: 8000,transfer: 200}"
+      :duration="{ enter: 1200, leave: 2000, stay: 8000, transfer: 200 }"
     />
     <div class="absolute top-1/2 -translate-y-1/2 w-screen h-1/2 text-white">
       <div class="center-container w-3/5 flex">
@@ -38,5 +38,7 @@ import bgImg5 from "@/assets/background/操場.jpg";
 import bgImg6 from "@/assets/background/櫻花.png";
 import AnimationBackground from "@/components/AnimationBackground.vue";
 
-const backgroundImages = [bgImg1, bgImg2, bgImg3, bgImg4, bgImg5, bgImg6];
+const backgroundImages = [bgImg1, bgImg2, bgImg3, bgImg4, bgImg5, bgImg6].sort(
+  () => Math.random() - 0.5
+);
 </script>
