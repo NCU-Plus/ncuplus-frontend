@@ -48,7 +48,12 @@
       >
         Prev
       </li>
-      <input id="page-input" v-model="page" class="w-10 py-1 text-center" />
+      <input
+        type="number"
+        id="page-input"
+        v-model="page"
+        class="w-10 py-1 text-center"
+      />
       <li
         id="go-next-page"
         @click="increasePage"
@@ -104,3 +109,14 @@ function decreasePage() {
   }
 }
 </script>
+
+<style scoped>
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+</style>
