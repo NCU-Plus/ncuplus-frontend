@@ -94,6 +94,13 @@ watch(
   }
 );
 
+watch(
+  () => props.coursesData,
+  () => {
+    page.value = 1;
+  }
+);
+
 const pageCoursesData = computed(() => {
   return props.coursesData.slice((page.value - 1) * 25, page.value * 25);
 });
