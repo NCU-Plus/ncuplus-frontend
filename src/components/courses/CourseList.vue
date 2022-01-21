@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { CourseData } from "./CourseData";
 
 const props = defineProps<{
@@ -76,6 +76,18 @@ const props = defineProps<{
 }>();
 
 const page = ref(1);
+
+watch(
+  () => page.value,
+  () => {
+    if (page.value < 1) {
+      page.value = 1;
+    } else if (page.value > Math.floor(props.coursesData.length / 25 + 1)) {
+      page.value = Math.floor(props.coursesData.length / 25 + 1);
+    }
+  }
+);
+
 const pageCoursesData = computed(() => {
   return props.coursesData.slice((page.value - 1) * 25, page.value * 25);
 });
