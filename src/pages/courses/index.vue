@@ -47,6 +47,7 @@ onBeforeMount(async () => {
 });
 
 const searchOptions = reactive({
+  query: "",
   semester: "",
   department: "",
 } as SearchOptions);
@@ -56,6 +57,7 @@ const filteredCoursesData = ref([] as CourseData[]);
 watch(
   () => ({ ...searchOptions }),
   () => {
+    console.log(searchOptions);
     filteredCoursesData.value = coursesData.value
       .filter((courseData) => {
         if (searchOptions.semester !== "")
@@ -69,11 +71,21 @@ watch(
         if (searchOptions.department !== "")
           return courseData.departmentName === searchOptions.department;
         else return true;
+      })
+      .filter((courseData) => {
+        if (searchOptions.query !== "")
+          return (
+            courseData.title.includes(searchOptions.query) ||
+            courseData.teachers.includes(searchOptions.query) ||
+            courseData.classNo.includes(searchOptions.query)
+          );
+        else return true;
       });
   }
 );
 
 const onSearch = (options: SearchOptions) => {
+  searchOptions.query = options.query;
   searchOptions.department = options.department;
   searchOptions.semester = options.semester;
 };

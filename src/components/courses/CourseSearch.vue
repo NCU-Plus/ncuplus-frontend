@@ -1,17 +1,22 @@
 <template>
   <form class="">
     <div class="flex my-6 justify-center">
-      <input class="rounded-l-md pl-4" />
-      <button class="display-block w-8 h-8 bg-sky-500 rounded-r-md">
+      <input
+        @keypress.enter.prevent
+        v-model="searchOptions.query"
+        placeholder="課名/課號/老師"
+        class="rounded-md pl-4 w-56 h-8"
+      />
+      <!-- <button class="display-block bg-sky-500 rounded-r-md">
         <font-awesome-icon class="text-white" :icon="['fa', 'search']" />
-      </button>
+      </button> -->
       <div class="mx-4 flex items-center">
         <input id="advanceSearch" v-model="advanceSearch" type="checkbox" />
         <label>進階搜尋</label>
       </div>
     </div>
     <div id="searchOptions" v-show="advanceSearch" class="flex my-6 space-x-2">
-      <div class="w-28 h-10">
+      <div class="w-32 h-10">
         <select
           v-model="searchOptions.semester"
           class="pl-4 pr-9 py-0 w-full h-full"
@@ -51,6 +56,7 @@ import { CourseData } from "./CourseData";
 import { SearchOptions } from "./SearchOptions";
 const advanceSearch = ref(false);
 const searchOptions = reactive(<SearchOptions>{
+  query: "",
   semester: "",
   department: "",
 });
