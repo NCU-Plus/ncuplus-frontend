@@ -11,10 +11,10 @@
       </div>
     </div>
     <div id="searchOptions" v-show="advanceSearch" class="flex my-6 space-x-2">
-      <div class="w-36 h-8">
+      <div class="w-28 h-10">
         <select
           v-model="searchOptions.semester"
-          class="pl-4 pr-1 w-full h-full"
+          class="pl-4 pr-9 py-0 w-full h-full"
         >
           <option value="">所有學期</option>
           <option
@@ -26,10 +26,10 @@
           </option>
         </select>
       </div>
-      <div class="w-96 h-8">
+      <div class="w-96 h-10">
         <select
           v-model="searchOptions.department"
-          class="pl-4 pr-1 w-full h-full"
+          class="pl-4 pr-9 py-0 w-full h-full"
         >
           <option value="">系所</option>
           <option
