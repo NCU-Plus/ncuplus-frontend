@@ -13,6 +13,7 @@
       <tr
         :id="`c${courseData.year}-${courseData.semester}-${courseData.serialNo}`"
         v-for="courseData of pageCoursesData"
+        class="cursor-pointer hover:bg-gray-50"
       >
         <th class="p-2 pl-3 align-middle border-t-gray-400">
           {{ courseData.year }}-{{ courseData.semester }}
@@ -37,14 +38,14 @@
       <li
         id="go-first-page"
         @click="page = 1"
-        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white rounded-l-md"
+        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white rounded-l-md cursor-pointer"
       >
         First
       </li>
       <li
         id="go-prev-page"
         @click="decreasePage"
-        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white"
+        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white cursor-pointer"
       >
         Prev
       </li>
@@ -52,19 +53,19 @@
         type="number"
         id="page-input"
         v-model="page"
-        class="w-10 py-1 text-center"
+        class="w-14 py-1 text-center"
       />
       <li
         id="go-next-page"
         @click="increasePage"
-        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white"
+        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white cursor-pointer"
       >
         Next
       </li>
       <li
         id="go-last-page"
         @click="page = Math.floor(coursesData.length / 25 + 1)"
-        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white rounded-r-md"
+        class="px-4 py-1 text-sky-600 hover:text-white hover:bg-sky-600 bg-white rounded-r-md cursor-pointer"
       >
         Last
       </li>

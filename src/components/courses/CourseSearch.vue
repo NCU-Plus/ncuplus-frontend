@@ -1,7 +1,7 @@
 <template>
   <form class="">
     <div class="flex my-6 justify-center">
-      <input class="rounded-l-md" />
+      <input class="rounded-l-md pl-4" />
       <button class="display-block w-8 h-8 bg-sky-500 rounded-r-md">
         <font-awesome-icon class="text-white" :icon="['fa', 'search']" />
       </button>
