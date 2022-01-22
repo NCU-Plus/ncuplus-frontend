@@ -27,3 +27,7 @@ export async function mapCourseData(coursesData: any[]): Promise<CourseData[]> {
   }
   return mappedCoursesData;
 }
+
+export function formatSemester(semester: number): string {
+  return semester ? "下" : "上";
+}

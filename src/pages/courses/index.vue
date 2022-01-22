@@ -14,7 +14,7 @@ import { SearchOptions } from "@/components/courses/SearchOptions";
 import { CourseData } from "@/components/courses/CourseData";
 import { onBeforeMount, reactive, ref, watch } from "vue";
 import axios from "axios";
-import { mapCourseData } from "../course";
+import { mapCourseData } from "@/helpers/course";
 
 const coursesData = ref([] as CourseData[]);
 
