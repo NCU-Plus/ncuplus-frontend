@@ -5,8 +5,9 @@ import CourseList from "./CourseList.vue";
 
 const coursesData: CourseData[] = [
   {
+    id: 1,
     year: 110,
-    semester: "上",
+    semester: 0,
     serialNo: 10,
     classNo: "C8763",
     title: "星爆系統",
@@ -22,8 +23,9 @@ const coursesData: CourseData[] = [
     courseType: "REQUIRED",
   },
   {
+    id: 2,
     year: 110,
-    semester: "下",
+    semester: 1,
     serialNo: 11,
     classNo: "聖母聖詠",
     title: "十一連擊",
