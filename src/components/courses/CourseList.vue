@@ -13,10 +13,11 @@
       <tr
         :id="`c${courseData.year}-${courseData.semester}-${courseData.serialNo}`"
         v-for="courseData of pageCoursesData"
+        @click="$router.push(`/courses/${courseData.id}`)"
         class="cursor-pointer hover:bg-gray-50"
       >
         <th class="p-2 pl-3 align-middle border-t-gray-400">
-          {{ courseData.year }}-{{ courseData.semester }}
+          {{ courseData.year }}-{{ formatSemester(courseData.semester) }}
         </th>
         <th class="p-2 pl-3 align-middle border-t-gray-400">
           {{ courseData.title }}
@@ -76,6 +77,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { CourseData } from "./CourseData";
+import { formatSemester } from "@/helpers/course";
 
 const props = defineProps<{
   coursesData: CourseData[];
