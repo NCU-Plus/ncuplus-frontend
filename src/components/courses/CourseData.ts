@@ -1,8 +1,7 @@
 export interface CourseData {
   id: number;
   year: number;
-  // 上 / 下
-  semester: string;
+  semester: number;
   serialNo: number;
   classNo: string;
   title: string;
