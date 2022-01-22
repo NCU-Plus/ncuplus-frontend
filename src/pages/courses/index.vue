@@ -19,9 +19,7 @@ import { mapCourseData } from "@/helpers/course";
 const coursesData = ref([] as CourseData[]);
 
 onBeforeMount(async () => {
-  const courses = await axios.get(
-    import.meta.env.VITE_APP_API_URL + "/courses"
-  );
+  const courses = await axios.get(process.env.VITE_APP_API_URL + "/courses");
   const mappedCoursesData = await mapCourseData(courses.data.data);
   coursesData.value = mappedCoursesData.slice();
   filteredCoursesData.value = mappedCoursesData.slice();

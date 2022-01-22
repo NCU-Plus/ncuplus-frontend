@@ -151,7 +151,7 @@ const pastExamsData = ref([] as any[]);
 
 onBeforeMount(async () => {
   const course = await axios.get(
-    import.meta.env.VITE_APP_API_URL + `/courses/${props.id}`
+    process.env.VITE_APP_API_URL + `/courses/${props.id}`
   );
   courseData.value = { ...(await mapCourseData([course.data.data]))[0] };
 });

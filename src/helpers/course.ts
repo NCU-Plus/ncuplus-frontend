@@ -5,10 +5,8 @@ export async function mapCourseData(coursesData: any[]): Promise<CourseData[]> {
   const mappedCoursesData: CourseData[] = [];
   const departmentMap = new Map<string, string>();
   const collegeMap = new Map<string, string>();
-  const departments = axios.get(
-    import.meta.env.VITE_APP_API_URL + "/departments"
-  );
-  const colleges = axios.get(import.meta.env.VITE_APP_API_URL + "/colleges");
+  const departments = axios.get(process.env.VITE_APP_API_URL + "/departments");
+  const colleges = axios.get(process.env.VITE_APP_API_URL + "/colleges");
   for (const department of (await departments).data.data)
     departmentMap.set(department.departmentId, department.departmentName);
   for (const college of (await colleges).data.data)
