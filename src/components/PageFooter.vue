@@ -1,6 +1,6 @@
 <template>
   <footer
-    class="h-12 w-full -mt-12 bg-slate-900 flex text-white justify-center items-center"
+    class="h-12 w-full -mt-12 bg-slate-900 flex text-white justify-center items-center z-50"
   >
     <div>© Copyright NCU+ 2022</div>
     <div class="flex ml-4 basis-12 justify-center">
