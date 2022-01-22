@@ -1,4 +1,5 @@
 export interface CourseData {
+  id: number;
   year: number;
   // 上 / 下
   semester: string;
