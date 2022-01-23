@@ -6,6 +6,7 @@ import {
   faComment,
   faComments,
   faSearch,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -15,5 +16,6 @@ library.add(faBook);
 library.add(faComment);
 library.add(faComments);
 library.add(faClipboardList);
+library.add(faBars);
 
 export default FontAwesomeIcon;
