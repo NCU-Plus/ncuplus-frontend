@@ -34,7 +34,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="w-1/4">
+  <div>
     <ul class="my-5 flex">
       <li
         id="go-first-page"
