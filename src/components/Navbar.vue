@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex items-center bg-blue-400 p-3 flex-wrap text-white">
+  <nav class="flex items-center bg-blue-400 p-3  text-white fixed w-full z-50 h-50">
     <router-link class="ml-48 p-2 mr-4 inline-flex items-center" to="/">NCU+</router-link>
   
       <button
@@ -9,7 +9,6 @@
         <font-awesome-icon
           class="hover:text-slate-400 transition-colors duration-300"
           :icon="['fas', 'bars']"
-          size="2x"
       />
       </button>
       <div
