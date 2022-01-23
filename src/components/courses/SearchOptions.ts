@@ -1,5 +1,5 @@
 export interface SearchOptions {
+  query: string;
   semester: string;
-  degree: string;
   department: string;
 }

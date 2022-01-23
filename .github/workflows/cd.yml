@@ -1,17 +1,17 @@
-name: CI
+name: CD
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16]
     
-    name: "Build&Test: node-${{ matrix.node_version }}"
+    name: "Build&Test&Deploy: node-${{ matrix.node_version }}"
     steps:
     - uses: actions/checkout@v2
     - name: Set node version to ${{ matrix.node-version }}
@@ -25,4 +25,10 @@ jobs:
       run: npm run build
     - name: Run unit tests
       run: npm run test 
-
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      with:
+        branch: main
+        folder: dist
+        ssh-key: ${{ secrets.GH_PAGE_SECRET }}
+        repository-name: NCU-Plus/ncu-plus.github.io

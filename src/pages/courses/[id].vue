@@ -1,0 +1,158 @@
+<template>
+  <div class="md:container mx-auto min-h-screen">
+    <div class="w-3/4 h-full mx-auto mt-12 mb-12 flex flex-col space-y-10">
+      <!--Title-->
+      <section class="mt-10">
+        <h1 class="text-3xl">
+          {{ courseData.title }} - {{ courseData.teachers }}
+        </h1>
+      </section>
+      <!--info-->
+      <section>
+        <h3 class="flex space-x-3 items-center mb-10">
+          <font-awesome-icon :icon="['fa', 'book']" size="lg" />
+          <strong class="text-2xl">課程資訊</strong>
+        </h3>
+        <table class="w-1/3 h-24">
+          <tbody>
+            <tr>
+              <td>
+                課號: <strong>{{ courseData.classNo }}</strong>
+              </td>
+              <td>
+                學分: <strong>{{ courseData.credit }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a
+                  target="_blank"
+                  class="text-sky-600 hover:text-sky-800"
+                  :href="`https://cis.ncu.edu.tw/Course/main/query/byKeywords?serialNo=${
+                    courseData.serialNo
+                  }&outline=${courseData.serialNo}&semester=${courseData.year}${
+                    courseData.semester + 1
+                  }`"
+                  >課程綱要</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="w-3/4 h-24 text-center">
+          <tbody>
+            <tr class="border-t-[1px] border-slate-300">
+              <td>學期</td>
+              <td>系所</td>
+              <td>編號</td>
+              <td>選別</td>
+              <td>修課上限</td>
+              <td>時間</td>
+              <td>密碼卡</td>
+            </tr>
+            <tr class="border-t-[1px] border-slate-300">
+              <td>
+                {{ courseData.year }}-{{ formatSemester(courseData.semester) }}
+              </td>
+              <td>{{ courseData.departmentName }}</td>
+              <td>{{ courseData.serialNo }}</td>
+              <td>{{ formatCourseType(courseData.courseType) }}</td>
+              <td>{{ courseData.limitCnt }}</td>
+              <td>{{ courseData.classTimes }}</td>
+              <td>{{ formatPasswordCard(courseData.passwordCard) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <!--comment-->
+      <section>
+        <h3 class="flex space-x-3 items-center mb-10">
+          <font-awesome-icon :icon="['fa', 'comment']" size="lg" />
+          <strong class="text-2xl">留言板</strong>
+        </h3>
+        <div class="bg-gray-300 h-24 min-h-full rounded-xl text-center">
+          <div class="p-8">
+            <strong v-if="commentsData.length === 0">尚無留言</strong>
+          </div>
+        </div>
+      </section>
+      <!--discusstion-->
+      <section>
+        <h3 class="flex space-x-3 items-center mb-10">
+          <font-awesome-icon :icon="['fa', 'comments']" size="lg" />
+          <strong class="text-2xl">課程心得 / 討論</strong>
+        </h3>
+        <div v-for="discussionData of discussionsData"></div>
+      </section>
+      <!--test-->
+      <section>
+        <h3 class="flex space-x-3 items-center mb-10">
+          <font-awesome-icon :icon="['fa', 'clipboard-list']" size="lg" />
+          <strong class="text-2xl">考古題</strong>
+        </h3>
+        <table class="w-full bg-gray-50 rounded-t mb-32">
+          <thead>
+            <tr>
+              <th class="py-2">下載次數</th>
+              <th class="py-2">檔名</th>
+              <th class="py-2">年度</th>
+              <th class="py-2">檔案說明</th>
+              <th class="py-2">大小</th>
+              <th class="py-2">上傳者</th>
+              <th class="py-2">上傳時間</th>
+              <th class="py-2">動作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-if="pastExamsData.length === 0"
+              class="text-center border-t-[1px] border-slate-300"
+            >
+              <td colspan="8">
+                <h4 class="py-2 w-full">尚無檔案</h4>
+              </td>
+            </tr>
+            <tr
+              class="border-t-[1px] border-slate-300"
+              v-for="pastExamData of pastExamsData"
+            >
+              <td class="py-2 text-center">下載次數</td>
+              <td class="py-2 text-center">檔名</td>
+              <td class="py-2 text-center">年度</td>
+              <td class="py-2 text-center">檔案說明</td>
+              <td class="py-2 text-center">大小</td>
+              <td class="py-2 text-center">上傳者</td>
+              <td class="py-2 text-center">上傳時間</td>
+              <td class="py-2 text-center">動作</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { CourseData } from "@/components/courses/CourseData";
+import axios from "axios";
+import { onBeforeMount, reactive, ref } from "vue";
+import {
+  mapCourseData,
+  formatCourseType,
+  formatSemester,
+  formatPasswordCard,
+} from "@/helpers/course";
+
+const props = defineProps<{ id: string }>();
+const courseData = ref({} as CourseData);
+const commentsData = ref([] as any[]);
+const discussionsData = ref([] as any[]);
+const pastExamsData = ref([] as any[]);
+
+onBeforeMount(async () => {
+  const course = await axios.get(
+    process.env.VITE_APP_API_URL + `/courses/${props.id}`
+  );
+  courseData.value = { ...(await mapCourseData([course.data.data]))[0] };
+});
+</script>
