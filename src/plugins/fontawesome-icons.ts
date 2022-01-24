@@ -7,6 +7,8 @@ import {
   faComments,
   faSearch,
   faBars,
+  faThumbsUp,
+  faThumbsDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -17,5 +19,7 @@ library.add(faComment);
 library.add(faComments);
 library.add(faClipboardList);
 library.add(faBars);
+library.add(faThumbsUp);
+library.add(faThumbsDown);
 
 export default FontAwesomeIcon;
