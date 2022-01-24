@@ -18,12 +18,33 @@
         </div>
       </div>
     </fullpage-header>
-    <section class="h-screen w-full bg-white"></section>
+    <section class="h-screen w-full bg-white">
+      <h1 class="relative top-10 text-lg font-bold text-center">Features</h1>
+      <div class="center-container w-full flex items-center justify-center">
+        <section class="flex items-center justify-center">
+          <img src="@/assets/features_chart.png" class="w-44 h-44">
+          <section class="text-left">
+            <h3 class="text-center font-bold">大量選課心得</h3>
+            <p class="text-left">
+              能夠藉由宛如選課系統般的查找方式，尋找到目標課程。
+              <br>
+              現在不用再CTRL+F了，在網站中一次找出所有你想要的!
+            </p>
+          </section>
+        </section>
+      </div>
+    </section>
     <section class="h-96 w-full bg-slate-800 flex items-center">
       <div class="h-4/5 w-full">
         <div class="center-container w-3/5 text-white text-center">
           <h1 class="text-2xl">About NCU+</h1>
-          <p></p>
+          <p class="mt-5">
+            NCU+是中大非官方的資訊網站
+            <br>
+            發想於排課過程中查找資訊的困難，因而期望有彙整資訊的網頁。
+            <br>
+            期望獲得portal簽入的權限，以降低切換使用學校網頁與NCU+的成本。
+          </p>
         </div>
       </div>
     </section>
