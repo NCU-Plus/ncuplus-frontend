@@ -33,15 +33,16 @@
           </div>
         </div>
       </div>
-      <input
-        class="px-5 py-1 mb-4 w-4/5 outline outline-gray-200 rounded-sm"
-        placeholder="留言..."
+      <textarea
+        class="px-5 py-1 mb-4 w-4/5 outline outline-gray-200 rounded-sm resize-none"
+        placeholder="留言... (Shift + Enter來發送訊息)"
         v-model="content"
-        @keypress.enter="
+        maxlength="255"
+        @keypress.shift.enter="
           add('comment', courseId, content, commentsData);
           content = '';
         "
-      />
+      ></textarea>
     </div>
   </section>
 </template>
