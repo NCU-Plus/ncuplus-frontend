@@ -67,7 +67,7 @@
       <!--comment-->
       <Comments :courseId="Number(id)" :commentsData="commentsData" />
       <!--review-->
-      <Reviews :reviewsData="reviewsData" />
+      <Reviews :courseId="Number(id)" :reviewsData="reviewsData" />
       <!--test-->
       <section>
         <h3 class="flex space-x-3 items-center mb-10">
