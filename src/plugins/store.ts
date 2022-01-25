@@ -7,22 +7,38 @@ export enum ToastType {
   ERROR = 2,
 }
 
+export interface Toast {
+  type: ToastType;
+  message: string;
+}
+
 export interface State {
-  toast: {
-    display: boolean;
-    type: ToastType;
-    message: string;
-  };
+  toasts: Toast[];
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   state: {
-    toast: {
-      display: false,
-      type: ToastType.SUCCESS,
-      message: "",
+    toasts: [],
+  },
+  mutations: {
+    pushToast(state, toast: Toast) {
+      state.toasts.push(toast);
+    },
+    shiftToast(state) {
+      state.toasts.shift();
+    },
+  },
+  actions: {
+    async setToast({ commit }, toast: Toast) {
+      commit("pushToast", toast);
+      return new Promise<void>((resolve) =>
+        setTimeout(() => {
+          commit("shiftToast");
+          resolve();
+        }, 5000)
+      );
     },
   },
 });

@@ -9,6 +9,9 @@ import {
   faBars,
   faThumbsUp,
   faThumbsDown,
+  faCheck,
+  faExclamationTriangle,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -21,5 +24,8 @@ library.add(faClipboardList);
 library.add(faBars);
 library.add(faThumbsUp);
 library.add(faThumbsDown);
+library.add(faCheck);
+library.add(faExclamationTriangle);
+library.add(faTimes);
 
 export default FontAwesomeIcon;
