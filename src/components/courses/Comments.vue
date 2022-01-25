@@ -15,28 +15,40 @@
           </p>
           <div class="flex space-x-2 items-center px-5 py-2">
             <div
-              class="cursor-pointer"
+              class="cursor-pointer flex items-center"
               @click="reation('comment', 'like', commentData.id, commentsData)"
             >
-              <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+              <font-awesome-icon :icon="['fas', 'thumbs-up']" class="mr-1" />
               {{ commentData.likes.length }}
             </div>
             <div
-              class="cursor-pointer"
+              class="cursor-pointer flex items-center"
               @click="
                 reation('comment', 'dislike', commentData.id, commentsData)
               "
             >
-              <font-awesome-icon :icon="['fas', 'thumbs-down']" />
+              <font-awesome-icon :icon="['fas', 'thumbs-down']" class="mr-1" />
               {{ commentData.dislikes.length }}
             </div>
           </div>
         </div>
       </div>
+      <input
+        class="px-5 py-1 mb-4 w-4/5 outline outline-gray-200 rounded-sm"
+        placeholder="留言..."
+        v-model="content"
+        @keypress.enter="
+          add('comment', courseId, content, commentsData);
+          content = '';
+        "
+      />
     </div>
   </section>
 </template>
 <script setup lang="ts">
-import { reation } from "@/helpers/reaction";
-const props = defineProps<{ commentsData: any[] }>();
+import { reation, add } from "@/helpers/course-info";
+import { ref } from "vue";
+const props = defineProps<{ courseId: number; commentsData: any[] }>();
+
+const content = ref("");
 </script>

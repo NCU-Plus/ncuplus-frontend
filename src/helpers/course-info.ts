@@ -39,7 +39,7 @@ export async function reation(
         .find((targetData) => targetData.id === id)
         .dislikes.push(response.data.data);
     }
-    await store.dispatch("setToast", {
+    await store.dispatch("pushToast", {
       type: ToastType.SUCCESS,
       message: "操作成功",
     });
@@ -61,7 +61,42 @@ export async function reation(
         message = "你已經為這篇內容推噓過了!";
       }
     }
-    await store.dispatch("setToast", {
+    await store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}
+
+export async function add(
+  target: string,
+  id: number,
+  content: string,
+  targetArray: any[]
+) {
+  if (content === "") return;
+  try {
+    let response = await axios.post(
+      process.env.VITE_APP_API_URL + `/course-info/${target}`,
+      { courseId: id, content: content },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    targetArray.push({ ...response.data.data, likes: [], dislikes: [] });
+
+    await store.dispatch("pushToast", {
+      type: ToastType.SUCCESS,
+      message: "操作成功",
+    });
+  } catch (error: any) {
+    let message = "未知錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+
+    await store.dispatch("pushToast", {
       type: ToastType.ERROR,
       message: message,
     });

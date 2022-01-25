@@ -32,6 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { reation } from "@/helpers/reaction";
+import { reation } from "@/helpers/course-info";
 const props = defineProps<{ reviewsData: any[] }>();
 </script>

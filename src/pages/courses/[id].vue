@@ -65,7 +65,7 @@
         </table>
       </section>
       <!--comment-->
-      <Comments :commentsData="commentsData" />
+      <Comments :courseId="Number(id)" :commentsData="commentsData" />
       <!--review-->
       <Reviews :reviewsData="reviewsData" />
       <!--test-->

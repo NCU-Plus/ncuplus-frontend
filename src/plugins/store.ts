@@ -31,7 +31,7 @@ export const store = createStore<State>({
     },
   },
   actions: {
-    async setToast({ commit }, toast: Toast) {
+    async pushToast({ commit }, toast: Toast) {
       commit("pushToast", toast);
       return new Promise<void>((resolve) =>
         setTimeout(() => {
