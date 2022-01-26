@@ -8,6 +8,15 @@
       class="flex flex-col pl-5 mb-4 border-l-4 border-green-400"
       v-for="reviewData of reviewsData"
     >
+      <div class="flex flex-col space-y-2 text-gray-600 mb-6">
+        <a class="text-sky-600">{{ getUsernameById(reviewData.authorId) }}</a>
+        <p v-if="reviewData.createdAt === reviewData.updatedAt">
+          {{ toDatetimeString(new Date(reviewData.createdAt)) }}
+        </p>
+        <p v-else>
+          {{ toDatetimeString(new Date(reviewData.updatedAt)) }} 編輯
+        </p>
+      </div>
       <textarea
         v-if="editing === reviewData.id"
         v-model="reviewData.content"
@@ -85,6 +94,8 @@ import { reation, add, edit } from "@/helpers/course-info";
 import { ref } from "vue";
 import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
 import { DropdownMenuOptions } from "./DropdownMenuOptions";
+import { getUsernameById } from "@/helpers/user";
+import { toDatetimeString } from "@/helpers/time";
 
 const emits = defineEmits<{
   (event: "openDropdownMenu", data: DropdownMenuOptions): void;
