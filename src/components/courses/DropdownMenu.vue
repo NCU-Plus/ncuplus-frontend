@@ -2,7 +2,7 @@
   <div
     id="dropdown-menu"
     v-if="dropdownMenuOptions.show"
-    class="absolute top-0 left-0"
+    class="absolute top-0 left-0 shadow-md"
     :style="{
       transform: `translate(${dropdownMenuOptions.position.x - 53}px, ${
         dropdownMenuOptions.position.y + 29
