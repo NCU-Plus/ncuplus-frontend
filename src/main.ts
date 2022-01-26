@@ -15,4 +15,12 @@ createApp(App)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(router)
   .use(store, key)
+  .directive("click-outside", {
+    beforeMount(el, binding) {
+      document.addEventListener("click", binding.value(el));
+    },
+    beforeUnmount(el, binding) {
+      document.removeEventListener("click", binding.value(el));
+    },
+  })
   .mount("#app");

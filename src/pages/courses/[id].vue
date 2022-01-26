@@ -65,7 +65,13 @@
         </table>
       </section>
       <!--comment-->
-      <Comments :courseId="Number(id)" :commentsData="commentsData" />
+      <Comments
+        :courseId="Number(id)"
+        :commentsData="commentsData"
+        :editing="editingComment"
+        @openDropdownMenu="openDropdownMenu"
+        @closeDropdownMenu="dropdownMenuOptions.show = false"
+      />
       <!--review-->
       <Reviews :courseId="Number(id)" :reviewsData="reviewsData" />
       <!--test-->
@@ -113,6 +119,11 @@
         </table>
       </section>
     </div>
+    <DropdownMenu
+      :dropdownMenuOptions="dropdownMenuOptions"
+      @edit="edit($event.type, $event.id)"
+      @delete="dele($event.type, $event.id)"
+    />
   </div>
 </template>
 
@@ -128,12 +139,19 @@ import {
 } from "@/helpers/course";
 import Comments from "@/components/courses/Comments.vue";
 import Reviews from "@/components/courses/Reviews.vue";
+import DropdownMenu from "@/components/courses/DropdownMenu.vue";
+import { DropdownMenuOptions } from "@/components/courses/DropdownMenuOptions";
+import { del } from "@/helpers/course-info";
 
 const props = defineProps<{ id: string }>();
 const courseData = ref({} as CourseData);
 const commentsData = reactive([] as any[]);
 const reviewsData = reactive([] as any[]);
 const pastExamsData = ref([] as any[]);
+const dropdownMenuOptions = reactive({
+  type: "",
+} as DropdownMenuOptions);
+const editingComment = ref(0);
 
 onBeforeMount(async () => {
   const course = await axios.get(
@@ -148,4 +166,25 @@ onBeforeMount(async () => {
   for (const reviewData of courseInfo.data.data.reviews)
     reviewsData.push(reviewData);
 });
+
+function openDropdownMenu(data: DropdownMenuOptions) {
+  dropdownMenuOptions.show = data.show;
+  dropdownMenuOptions.type = data.type;
+  dropdownMenuOptions.id = data.id;
+  dropdownMenuOptions.isAuthor = data.isAuthor;
+  dropdownMenuOptions.position = data.position;
+}
+
+function edit(type: string, id: number) {
+  if (type === "comment") {
+    editingComment.value = id;
+  } else {
+    // TODO: edit review
+  }
+}
+
+function dele(type: string, id: number) {
+  if (type === "comment") del(type, id, commentsData);
+  else del(type, id, reviewsData);
+}
 </script>

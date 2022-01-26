@@ -102,3 +102,94 @@ export async function add(
     });
   }
 }
+
+export async function edit(
+  target: string,
+  id: number,
+  content: string,
+  targetArray: any[]
+) {
+  if (content === "") return;
+  try {
+    let response: AxiosResponse<any, any>;
+    if (target === "comment")
+      response = await axios.post(
+        process.env.VITE_APP_API_URL + `/course-info/${target}/edit`,
+        { commentId: id, content: content },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    else
+      response = await axios.post(
+        process.env.VITE_APP_API_URL + `/course-info/${target}/edit`,
+        { reviewId: id, content: content },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+    targetArray.find((targetData) => targetData.id === id).content = content;
+
+    await store.dispatch("pushToast", {
+      type: ToastType.SUCCESS,
+      message: "操作成功",
+    });
+  } catch (error: any) {
+    let message = "未知錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+
+    await store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}
+
+export async function del(target: string, id: number, targetArray: any[]) {
+  try {
+    let response: AxiosResponse<any, any>;
+    if (target === "comment")
+      response = await axios.post(
+        process.env.VITE_APP_API_URL + `/course-info/${target}/delete`,
+        { commentId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    else
+      response = await axios.post(
+        process.env.VITE_APP_API_URL + `/course-info/${target}/delete`,
+        { reviewId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+    targetArray.splice(
+      targetArray.findIndex((targetData) => targetData.id === id),
+      1
+    );
+
+    await store.dispatch("pushToast", {
+      type: ToastType.SUCCESS,
+      message: "操作成功",
+    });
+  } catch (error: any) {
+    let message = "未知錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+
+    await store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}
