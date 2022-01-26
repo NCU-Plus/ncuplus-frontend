@@ -31,9 +31,11 @@
                 "
                 @keydown.esc="editing = 0"
               ></textarea>
-              <pre v-else class="align-middle text-left mx-8 mt-4 my-auto">{{
-                commentData.content
-              }}</pre>
+              <pre
+                v-else
+                class="align-middle text-left mx-8 mt-4 my-auto whitespace-pre-wrap"
+                >{{ commentData.content }}</pre
+              >
             </div>
             <div
               class="flex mx-8 text-sm text-gray-600"
