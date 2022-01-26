@@ -25,7 +25,7 @@
       >
       </textarea>
       <pre v-else class="whitespace-pre-wrap">{{ reviewData.content }}</pre>
-      <div class="flex justify-between space-x-2 pr-5 py-2">
+      <div class="flex justify-between space-x-2 pr-5 py-2 text-gray-600">
         <div class="flex space-x-2">
           <div
             class="cursor-pointer"
