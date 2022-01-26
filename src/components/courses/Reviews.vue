@@ -19,7 +19,7 @@
       </div>
       <textarea
         v-if="editing === reviewData.id"
-        v-model="reviewData.content"
+        v-model="editingContent"
         class="px-5 py-1 h-60 outline outline-gray-200 rounded-sm resize-none"
         maxlength="100000"
       >
@@ -29,14 +29,16 @@
         <div class="flex space-x-2">
           <div
             class="cursor-pointer"
-            @click="reation('review', 'like', reviewData.id, reviewsData)"
+            @click="emits('reaction', { operation: 'like', id: reviewData.id })"
           >
             <font-awesome-icon :icon="['fas', 'thumbs-up']" />
             {{ reviewData.likes.length }}
           </div>
           <div
             class="cursor-pointer"
-            @click="reation('review', 'dislike', reviewData.id, reviewsData)"
+            @click="
+              emits('reaction', { operation: 'dislike', id: reviewData.id })
+            "
           >
             <font-awesome-icon :icon="['fas', 'thumbs-down']" />
             {{ reviewData.dislikes.length }}
@@ -44,15 +46,17 @@
         </div>
         <div class="flex space-x-2" v-if="editing === reviewData.id">
           <button
-            @click="editing = 0"
+            @click="emits('cancelEdit')"
             class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
           >
             取消
           </button>
           <button
             @click="
-              edit('review', reviewData.id, reviewData.content, reviewsData);
-              editing = 0;
+              emits('completeEdit', {
+                id: reviewData.id,
+                content: editingContent,
+              })
             "
             class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
           >
@@ -77,7 +81,7 @@
       <div class="flex justify-end">
         <button
           @click="
-            add('review', courseId, content, reviewsData);
+            emits('add', { courseId: courseId, content: content });
             content = '';
           "
           class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
@@ -90,8 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { reation, add, edit } from "@/helpers/course-info";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
 import { DropdownMenuOptions } from "./DropdownMenuOptions";
 import { getUsernameById } from "@/helpers/user";
@@ -100,10 +103,21 @@ import { toDatetimeString } from "@/helpers/time";
 const emits = defineEmits<{
   (event: "openDropdownMenu", data: DropdownMenuOptions): void;
   (event: "closeDropdownMenu"): void;
+  (event: "add", data: { courseId: number; content: string }): void;
+  (event: "reaction", data: { operation: string; id: number }): void;
+  (
+    event: "completeEdit",
+    data: {
+      id: number;
+      content: string;
+    }
+  ): void;
+  (event: "cancelEdit"): void;
 }>();
 const props =
   defineProps<{ courseId: number; reviewsData: any[]; editing: number }>();
 const content = ref("");
+const editingContent = ref("");
 
 function openDropdownMenu(id: number, event: MouseEvent) {
   emits("openDropdownMenu", {
@@ -117,4 +131,15 @@ function openDropdownMenu(id: number, event: MouseEvent) {
     },
   });
 }
+
+watch(
+  () => props.editing,
+  (newValue, oldValue) => {
+    if (oldValue === 0 && newValue !== 0) {
+      editingContent.value = props.reviewsData.find(
+        (reviewData) => reviewData.id === newValue
+      ).content;
+    }
+  }
+);
 </script>

@@ -1,7 +1,7 @@
 import { store, ToastType } from "@/plugins/store";
 import axios, { AxiosResponse } from "axios";
 
-export async function reation(
+export async function reaction(
   target: string,
   operation: string,
   id: number,

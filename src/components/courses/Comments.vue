@@ -19,17 +19,14 @@
                 v-if="editing === commentData.id"
                 class="ml-8 mt-4 w-full outline outline-gray-200 rounded-sm resize-none"
                 maxlength="255"
-                v-model="commentData.content"
+                v-model="editingContent"
                 @keypress.shift.enter="
-                  edit(
-                    'comment',
-                    commentData.id,
-                    commentData.content,
-                    commentsData
-                  );
-                  editing = 0;
+                  emits('completeEdit', {
+                    id: commentData.id,
+                    content: editingContent,
+                  })
                 "
-                @keydown.esc="editing = 0"
+                @keydown.esc="emits('cancelEdit')"
               ></textarea>
               <div
                 v-else
@@ -59,7 +56,10 @@
               <div
                 class="cursor-pointer flex items-center"
                 @click="
-                  reation('comment', 'like', commentData.id, commentsData)
+                  emits('reaction', {
+                    operation: 'like',
+                    id: commentData.id,
+                  })
                 "
               >
                 <font-awesome-icon :icon="['fas', 'thumbs-up']" class="mr-1" />
@@ -68,7 +68,10 @@
               <div
                 class="cursor-pointer flex items-center"
                 @click="
-                  reation('comment', 'dislike', commentData.id, commentsData)
+                  emits('reaction', {
+                    operation: 'dislike',
+                    id: commentData.id,
+                  })
                 "
               >
                 <font-awesome-icon
@@ -91,7 +94,7 @@
         v-model="content"
         maxlength="255"
         @keypress.shift.enter="
-          add('comment', courseId, content, commentsData);
+          emits('add', { courseId: courseId, content: content });
           content = '';
         "
       ></textarea>
@@ -99,8 +102,7 @@
   </section>
 </template>
 <script setup lang="ts">
-import { reation, add, edit } from "@/helpers/course-info";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { DropdownMenuOptions } from "./DropdownMenuOptions";
 import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
 import { getUsernameById } from "@/helpers/user";
@@ -111,9 +113,20 @@ const props =
 const emits = defineEmits<{
   (event: "openDropdownMenu", data: DropdownMenuOptions): void;
   (event: "closeDropdownMenu"): void;
+  (event: "add", data: { courseId: number; content: string }): void;
+  (event: "reaction", data: { operation: string; id: number }): void;
+  (
+    event: "completeEdit",
+    data: {
+      id: number;
+      content: string;
+    }
+  ): void;
+  (event: "cancelEdit"): void;
 }>();
 
 const content = ref("");
+const editingContent = ref("");
 
 function openDropdownMenu(id: number, event: MouseEvent) {
   emits("openDropdownMenu", {
@@ -127,4 +140,15 @@ function openDropdownMenu(id: number, event: MouseEvent) {
     },
   });
 }
+
+watch(
+  () => props.editing,
+  (newValue, oldValue) => {
+    if (oldValue === 0 && newValue !== 0) {
+      editingContent.value = props.commentsData.find(
+        (commentData) => commentData.id === newValue
+      ).content;
+    }
+  }
+);
 </script>

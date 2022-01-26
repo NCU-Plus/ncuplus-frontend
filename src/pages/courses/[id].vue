@@ -71,6 +71,15 @@
         :editing="editingComment"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
+        @add="add('comment', $event.courseId, $event.content, commentsData)"
+        @reaction="
+          reaction('comment', $event.operation, $event.id, commentsData)
+        "
+        @completeEdit="
+          edit('comment', $event.id, $event.content, commentsData);
+          editingComment = 0;
+        "
+        @cancelEdit="editingComment = 0"
       />
       <!--review-->
       <Reviews
@@ -79,6 +88,13 @@
         :editing="editingReview"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
+        @add="add('review', $event.courseId, $event.content, reviewsData)"
+        @reaction="reaction('review', $event.operation, $event.id, reviewsData)"
+        @completeEdit="
+          edit('review', $event.id, $event.content, reviewsData);
+          editingReview = 0;
+        "
+        @cancelEdit="editingReview = 0"
       />
       <!--test-->
       <section>
@@ -127,8 +143,8 @@
     </div>
     <DropdownMenu
       :dropdownMenuOptions="dropdownMenuOptions"
-      @edit="edit($event.type, $event.id)"
-      @delete="dele($event.type, $event.id)"
+      @edit="setEditing()"
+      @delete="dele()"
     />
   </div>
 </template>
@@ -147,7 +163,7 @@ import Comments from "@/components/courses/Comments.vue";
 import Reviews from "@/components/courses/Reviews.vue";
 import DropdownMenu from "@/components/courses/DropdownMenu.vue";
 import { DropdownMenuOptions } from "@/components/courses/DropdownMenuOptions";
-import { del } from "@/helpers/course-info";
+import { reaction, del, edit, add } from "@/helpers/course-info";
 
 const props = defineProps<{ id: string }>();
 const courseData = ref({} as CourseData);
@@ -182,16 +198,17 @@ function openDropdownMenu(data: DropdownMenuOptions) {
   dropdownMenuOptions.position = data.position;
 }
 
-function edit(type: string, id: number) {
-  if (type === "comment") {
-    editingComment.value = id;
+function setEditing() {
+  if (dropdownMenuOptions.type === "comment") {
+    editingComment.value = dropdownMenuOptions.id;
   } else {
-    editingReview.value = id;
+    editingReview.value = dropdownMenuOptions.id;
   }
 }
 
-function dele(type: string, id: number) {
-  if (type === "comment") del(type, id, commentsData);
-  else del(type, id, reviewsData);
+function dele() {
+  if (dropdownMenuOptions.type === "comment")
+    del(dropdownMenuOptions.type, dropdownMenuOptions.id, commentsData);
+  else del(dropdownMenuOptions.type, dropdownMenuOptions.id, reviewsData);
 }
 </script>

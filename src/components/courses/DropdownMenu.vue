@@ -15,24 +15,14 @@
     <div class="flex flex-col">
       <div
         class="px-6 py-2 bg-white cursor-pointer hover:bg-gray-100"
-        @click="
-          emits('edit', {
-            id: dropdownMenuOptions.id,
-            type: dropdownMenuOptions.type,
-          })
-        "
+        @click="emits('edit')"
         v-if="dropdownMenuOptions.isAuthor"
       >
         編輯
       </div>
       <div
         class="px-6 py-2 bg-white cursor-pointer hover:bg-gray-100"
-        @click="
-          emits('delete', {
-            id: dropdownMenuOptions.id,
-            type: dropdownMenuOptions.type,
-          })
-        "
+        @click="emits('delete')"
         v-if="dropdownMenuOptions.isAuthor"
       >
         刪除
@@ -45,7 +35,7 @@ import { DropdownMenuOptions } from "./DropdownMenuOptions";
 
 const props = defineProps<{ dropdownMenuOptions: DropdownMenuOptions }>();
 const emits = defineEmits<{
-  (event: "edit", data: { type: string; id: number }): void;
-  (event: "delete", data: { type: string; id: number }): void;
+  (event: "edit"): void;
+  (event: "delete"): void;
 }>();
 </script>
