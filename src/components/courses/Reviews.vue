@@ -8,22 +8,53 @@
       class="flex flex-col pl-5 mb-4 border-l-4 border-green-400"
       v-for="reviewData of reviewsData"
     >
-      <pre>{{ reviewData.content }}</pre>
-      <div class="flex justify-end space-x-2 pr-5 py-2">
-        <div
-          class="cursor-pointer"
-          @click="reation('review', 'like', reviewData.id, reviewsData)"
-        >
-          <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-          {{ reviewData.likes.length }}
+      <textarea
+        v-if="editing === reviewData.id"
+        v-model="reviewData.content"
+        class="px-5 py-1 h-60 outline outline-gray-200 rounded-sm resize-none"
+        maxlength="100000"
+      >
+      </textarea>
+      <pre v-else>{{ reviewData.content }}</pre>
+      <div class="flex justify-between space-x-2 pr-5 py-2">
+        <div class="flex space-x-2">
+          <div
+            class="cursor-pointer"
+            @click="reation('review', 'like', reviewData.id, reviewsData)"
+          >
+            <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+            {{ reviewData.likes.length }}
+          </div>
+          <div
+            class="cursor-pointer"
+            @click="reation('review', 'dislike', reviewData.id, reviewsData)"
+          >
+            <font-awesome-icon :icon="['fas', 'thumbs-down']" />
+            {{ reviewData.dislikes.length }}
+          </div>
         </div>
-        <div
-          class="cursor-pointer"
-          @click="reation('review', 'dislike', reviewData.id, reviewsData)"
-        >
-          <font-awesome-icon :icon="['fas', 'thumbs-down']" />
-          {{ reviewData.dislikes.length }}
+        <div class="flex space-x-2" v-if="editing === reviewData.id">
+          <button
+            @click="editing = 0"
+            class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
+          >
+            取消
+          </button>
+          <button
+            @click="
+              edit('review', reviewData.id, reviewData.content, reviewsData);
+              editing = 0;
+            "
+            class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
+          >
+            送出
+          </button>
         </div>
+        <OpenDropdownMenuButton
+          v-else
+          @openDropdownMenu="openDropdownMenu(reviewData.id, $event)"
+          @closeDropdownMenu="emits('closeDropdownMenu')"
+        />
       </div>
     </div>
     <div class="flex flex-col pl-5 mb-4 border-l-4 border-green-400 space-y-2">
@@ -36,7 +67,10 @@
       </textarea>
       <div class="flex justify-end">
         <button
-          @click="add('review', courseId, content, reviewsData)"
+          @click="
+            add('review', courseId, content, reviewsData);
+            content = '';
+          "
           class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
         >
           送出
@@ -47,8 +81,29 @@
 </template>
 
 <script setup lang="ts">
-import { reation, add } from "@/helpers/course-info";
+import { reation, add, edit } from "@/helpers/course-info";
 import { ref } from "vue";
-const props = defineProps<{ courseId: number; reviewsData: any[] }>();
+import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
+import { DropdownMenuOptions } from "./DropdownMenuOptions";
+
+const emits = defineEmits<{
+  (event: "openDropdownMenu", data: DropdownMenuOptions): void;
+  (event: "closeDropdownMenu"): void;
+}>();
+const props =
+  defineProps<{ courseId: number; reviewsData: any[]; editing: number }>();
 const content = ref("");
+
+function openDropdownMenu(id: number, event: MouseEvent) {
+  emits("openDropdownMenu", {
+    type: "review",
+    show: true,
+    id: id,
+    isAuthor: true, // TODO: check user is a author
+    position: {
+      x: event.pageX,
+      y: event.pageY,
+    },
+  });
+}
 </script>

@@ -73,7 +73,13 @@
         @closeDropdownMenu="dropdownMenuOptions.show = false"
       />
       <!--review-->
-      <Reviews :courseId="Number(id)" :reviewsData="reviewsData" />
+      <Reviews
+        :courseId="Number(id)"
+        :reviewsData="reviewsData"
+        :editing="editingReview"
+        @openDropdownMenu="openDropdownMenu"
+        @closeDropdownMenu="dropdownMenuOptions.show = false"
+      />
       <!--test-->
       <section>
         <h3 class="flex space-x-3 items-center mb-10">
@@ -152,6 +158,7 @@ const dropdownMenuOptions = reactive({
   type: "",
 } as DropdownMenuOptions);
 const editingComment = ref(0);
+const editingReview = ref(0);
 
 onBeforeMount(async () => {
   const course = await axios.get(
@@ -179,7 +186,7 @@ function edit(type: string, id: number) {
   if (type === "comment") {
     editingComment.value = id;
   } else {
-    // TODO: edit review
+    editingReview.value = id;
   }
 }
 
