@@ -33,7 +33,7 @@
               ></textarea>
               <div
                 v-else
-                class="flex space-x-2 justify-center items-center mx-8 mt-4 my-auto"
+                class="flex space-x-2 justify-center mx-8 mt-4 my-auto"
               >
                 <a class="text-sky-600">{{
                   getUsernameById(commentData.authorId)
