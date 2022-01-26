@@ -8,9 +8,7 @@
       class="flex flex-col pl-5 mb-4 border-l-4 border-green-400"
       v-for="reviewData of reviewsData"
     >
-      <div>
-        {{ reviewData.content }}
-      </div>
+      <pre>{{ reviewData.content }}</pre>
       <div class="flex justify-end space-x-2 pr-5 py-2">
         <div
           class="cursor-pointer"
