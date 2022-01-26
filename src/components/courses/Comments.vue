@@ -65,17 +65,10 @@
               </div>
             </div>
           </div>
-          <div
-            class="w-6 h-full mx-8 cursor-pointer open-dropdown-menu"
-            @click="openDropdownMenu(commentData.id, $event)"
-            v-click-outside="listener"
-          >
-            <font-awesome-icon
-              class="hover:scale-110"
-              :icon="['fas', 'ellipsis-v']"
-              size="lg"
-            />
-          </div>
+          <OpenDropdownMenuButton
+            @openDropdownMenu="openDropdownMenu(commentData.id, $event)"
+            @closeDropdownMenu="emits('closeDropdownMenu')"
+          />
         </div>
       </div>
       <textarea
@@ -95,6 +88,7 @@
 import { reation, add, edit } from "@/helpers/course-info";
 import { ref } from "vue";
 import { DropdownMenuOptions } from "./DropdownMenuOptions";
+import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
 
 const props =
   defineProps<{ courseId: number; commentsData: any[]; editing: number }>();
@@ -116,17 +110,5 @@ function openDropdownMenu(id: number, event: MouseEvent) {
       y: event.pageY,
     },
   });
-}
-
-function listener(el: Element) {
-  return (event: MouseEvent) => {
-    if (
-      !(event.target as Element).isEqualNode(el) &&
-      !(event.target as Element).parentElement?.isEqualNode(el) &&
-      !(event.target as Element).parentElement?.parentElement?.isEqualNode(el)
-    ) {
-      emits("closeDropdownMenu");
-    }
-  };
 }
 </script>
