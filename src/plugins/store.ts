@@ -14,6 +14,7 @@ export interface Toast {
 
 export interface State {
   toasts: Toast[];
+  usernameMap: Map<number, string>;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -21,6 +22,7 @@ export const key: InjectionKey<Store<State>> = Symbol();
 export const store = createStore<State>({
   state: {
     toasts: [],
+    usernameMap: new Map(),
   },
   mutations: {
     pushToast(state, toast: Toast) {
@@ -28,6 +30,9 @@ export const store = createStore<State>({
     },
     shiftToast(state) {
       state.toasts.shift();
+    },
+    setUsernameMap(state: State, data: { userId: number; username: string }) {
+      state.usernameMap.set(data.userId, data.username);
     },
   },
   actions: {

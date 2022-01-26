@@ -31,11 +31,17 @@
                 "
                 @keydown.esc="editing = 0"
               ></textarea>
-              <pre
+              <div
                 v-else
-                class="align-middle text-left mx-8 mt-4 my-auto whitespace-pre-wrap"
-                >{{ commentData.content }}</pre
+                class="flex space-x-2 justify-center items-center mx-8 mt-4 my-auto"
               >
+                <a class="text-sky-600">{{
+                  getUsernameById(commentData.authorId)
+                }}</a>
+                <pre class="align-middle text-left whitespace-pre-wrap">{{
+                  commentData.content
+                }}</pre>
+              </div>
             </div>
             <div
               class="flex mx-8 text-sm text-gray-600"
@@ -43,7 +49,13 @@
             >
               按Shift+Enter送出，或按Esc取消
             </div>
-            <div v-else class="flex space-x-2 items-center mx-8">
+            <div v-else class="flex space-x-2 items-center mx-8 text-gray-600">
+              <p v-if="commentData.createdAt === commentData.updatedAt">
+                {{ toDatetimeString(new Date(commentData.createdAt)) }}
+              </p>
+              <p v-else>
+                {{ toDatetimeString(new Date(commentData.updatedAt)) }} 編輯
+              </p>
               <div
                 class="cursor-pointer flex items-center"
                 @click="
@@ -91,6 +103,8 @@ import { reation, add, edit } from "@/helpers/course-info";
 import { ref } from "vue";
 import { DropdownMenuOptions } from "./DropdownMenuOptions";
 import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
+import { getUsernameById } from "@/helpers/user";
+import { toDatetimeString } from "@/helpers/time";
 
 const props =
   defineProps<{ courseId: number; commentsData: any[]; editing: number }>();
