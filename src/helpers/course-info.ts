@@ -133,7 +133,9 @@ export async function edit(
         }
       );
 
-    targetArray.find((targetData) => targetData.id === id).content = content;
+    const targetData = targetArray.find((targetData) => targetData.id === id);
+    targetData.content = content;
+    targetData.updatedAt = response.data.data.updatedAt;
 
     await store.dispatch("pushToast", {
       type: ToastType.SUCCESS,
