@@ -195,3 +195,55 @@ export async function del(target: string, id: number, targetArray: any[]) {
     });
   }
 }
+
+export async function uploadPastExam(
+  courseId: string,
+  uploadData: {
+    year: string;
+    description: string;
+    file: File;
+  },
+  pastExamArray: any[]
+) {
+  if (
+    !uploadData.file ||
+    uploadData.year === "" ||
+    uploadData.description === ""
+  ) {
+    store.dispatch("pushToast", {
+      type: ToastType.WARNING,
+      message: "請填寫完整資料",
+    });
+    return;
+  }
+  const formdata = new FormData();
+  formdata.append("courseId", courseId);
+  formdata.append("file", uploadData.file);
+  formdata.append("year", uploadData.year);
+  formdata.append("description", uploadData.description);
+  try {
+    const resp = await axios.post(
+      process.env.VITE_APP_API_URL + `/course-info/past-exam/upload`,
+      formdata,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    store.dispatch("pushToast", {
+      type: ToastType.SUCCESS,
+      message: "上傳成功",
+    });
+
+    pastExamArray.push(resp.data.data);
+  } catch (error: any) {
+    let message = "上傳時發生錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+    else if (error.response.data.statusCode === 400) message = "檔案不合法";
+    store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}

@@ -96,50 +96,11 @@
         "
         @cancelEdit="editingReview = 0"
       />
-      <!--test-->
-      <section>
-        <h3 class="flex space-x-3 items-center mb-10">
-          <font-awesome-icon :icon="['fa', 'clipboard-list']" size="lg" />
-          <strong class="text-2xl">考古題</strong>
-        </h3>
-        <table class="w-full bg-gray-50 rounded-t mb-32">
-          <thead>
-            <tr>
-              <th class="py-2">下載次數</th>
-              <th class="py-2">檔名</th>
-              <th class="py-2">年度</th>
-              <th class="py-2">檔案說明</th>
-              <th class="py-2">大小</th>
-              <th class="py-2">上傳者</th>
-              <th class="py-2">上傳時間</th>
-              <th class="py-2">動作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-if="pastExamsData.length === 0"
-              class="text-center border-t-[1px] border-slate-300"
-            >
-              <td colspan="8">
-                <h4 class="py-2 w-full">尚無檔案</h4>
-              </td>
-            </tr>
-            <tr
-              class="border-t-[1px] border-slate-300"
-              v-for="pastExamData of pastExamsData"
-            >
-              <td class="py-2 text-center">下載次數</td>
-              <td class="py-2 text-center">檔名</td>
-              <td class="py-2 text-center">年度</td>
-              <td class="py-2 text-center">檔案說明</td>
-              <td class="py-2 text-center">大小</td>
-              <td class="py-2 text-center">上傳者</td>
-              <td class="py-2 text-center">上傳時間</td>
-              <td class="py-2 text-center">動作</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <!--past exams-->
+      <PastExams
+        :pastExamsData="pastExamsData"
+        @upload="uploadPastExam(id, $event, pastExamsData)"
+      />
     </div>
     <DropdownMenu
       :dropdownMenuOptions="dropdownMenuOptions"
@@ -163,13 +124,20 @@ import Comments from "@/components/courses/Comments.vue";
 import Reviews from "@/components/courses/Reviews.vue";
 import DropdownMenu from "@/components/courses/DropdownMenu.vue";
 import { DropdownMenuOptions } from "@/components/courses/DropdownMenuOptions";
-import { reaction, del, edit, add } from "@/helpers/course-info";
+import {
+  reaction,
+  del,
+  edit,
+  add,
+  uploadPastExam,
+} from "@/helpers/course-info";
+import PastExams from "@/components/courses/PastExams.vue";
 
 const props = defineProps<{ id: string }>();
 const courseData = ref({} as CourseData);
 const commentsData = reactive([] as any[]);
 const reviewsData = reactive([] as any[]);
-const pastExamsData = ref([] as any[]);
+const pastExamsData = reactive([] as any[]);
 const dropdownMenuOptions = reactive({
   type: "",
 } as DropdownMenuOptions);
@@ -188,6 +156,8 @@ onBeforeMount(async () => {
     commentsData.push(commentData);
   for (const reviewData of courseInfo.data.data.reviews)
     reviewsData.push(reviewData);
+  for (const pastExamData of courseInfo.data.data.pastExams)
+    pastExamsData.push(pastExamData);
 });
 
 function openDropdownMenu(data: DropdownMenuOptions) {
