@@ -5,7 +5,11 @@ function formatTime(time: number): string {
   return time.toString();
 }
 
-export function toDatetimeString(time: Date) {
+export function toDatetimeString(timeFormatable: Date | string) {
+  const time =
+    typeof timeFormatable === "string"
+      ? new Date(timeFormatable)
+      : (timeFormatable as Date);
   return `${time.getFullYear()}-${formatTime(time.getMonth() + 1)}-${formatTime(
     time.getDate()
   )} ${formatTime(time.getHours())}:${formatTime(
