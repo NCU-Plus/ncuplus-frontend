@@ -249,3 +249,40 @@ export async function uploadPastExam(
     });
   }
 }
+
+export async function downloadPastExam(
+  pastExamId: number,
+  pastExamArray: any[]
+) {
+  try {
+    const resp = await axios.get(
+      `${process.env.VITE_APP_API_URL}/course-info/past-exam/${pastExamId}`,
+      {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    // save file to local
+    const url = window.URL.createObjectURL(new Blob([resp.data]));
+    const link = document.createElement("a");
+    link.href = url;
+    const savedFilename = resp.headers["content-disposition"].substring(
+      resp.headers["content-disposition"].indexOf("=") + 1
+    );
+    link.download = savedFilename ? savedFilename : "pastexam";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    pastExamArray.find((pastExam) => pastExam.id === pastExamId)
+      .downloadCount++;
+  } catch (error: any) {
+    let message = "下載時發生錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+    store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}

@@ -31,7 +31,12 @@
           v-for="pastExamData of pastExamsData"
         >
           <td class="py-2 text-center">{{ pastExamData.downloadCount }}</td>
-          <td class="py-2 text-center">{{ pastExamData.originFilename }}</td>
+          <td
+            class="py-2 text-center text-sky-600 hover:text-sky-800 cursor-pointer"
+            @click="emits('download', { id: pastExamData.id })"
+          >
+            {{ pastExamData.originFilename }}
+          </td>
           <td class="py-2 text-center">{{ pastExamData.year }}</td>
           <td class="py-2 text-center">{{ pastExamData.description }}</td>
           <td class="py-2 text-center">
@@ -108,6 +113,7 @@ const emits = defineEmits<{
     event: "upload",
     data: { year: string; description: string; file: File }
   ): void;
+  (event: "download", data: { id: number }): void;
 }>();
 
 const uploading = ref(false);
@@ -126,7 +132,6 @@ async function upload() {
   uploading.value = !uploading.value;
 }
 </script>
-
 <style scoped>
 .form-fade-enter-active {
   transition: all 0.3s ease-out;
