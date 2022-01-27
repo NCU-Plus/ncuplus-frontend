@@ -94,7 +94,7 @@
         v-model="content"
         maxlength="255"
         @keypress.shift.enter="
-          emits('add', { courseId: courseId, content: content });
+          emits('add', { content: content });
           content = '';
         "
       ></textarea>
@@ -108,12 +108,11 @@ import OpenDropdownMenuButton from "./OpenDropdownMenuButton.vue";
 import { getUsernameById } from "@/helpers/user";
 import { toDatetimeString } from "@/helpers/time";
 
-const props =
-  defineProps<{ courseId: number; commentsData: any[]; editing: number }>();
+const props = defineProps<{ commentsData: any[]; editing: number }>();
 const emits = defineEmits<{
   (event: "openDropdownMenu", data: DropdownMenuOptions): void;
   (event: "closeDropdownMenu"): void;
-  (event: "add", data: { courseId: number; content: string }): void;
+  (event: "add", data: { content: string }): void;
   (event: "reaction", data: { operation: string; id: number }): void;
   (
     event: "completeEdit",

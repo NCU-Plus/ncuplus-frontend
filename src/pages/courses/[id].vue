@@ -66,12 +66,11 @@
       </section>
       <!--comment-->
       <Comments
-        :courseId="Number(id)"
         :commentsData="commentsData"
         :editing="editingComment"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
-        @add="add('comment', $event.courseId, $event.content, commentsData)"
+        @add="add('comment', id, $event.content, commentsData)"
         @reaction="
           reaction('comment', $event.operation, $event.id, commentsData)
         "
@@ -83,12 +82,11 @@
       />
       <!--review-->
       <Reviews
-        :courseId="Number(id)"
         :reviewsData="reviewsData"
         :editing="editingReview"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
-        @add="add('review', $event.courseId, $event.content, reviewsData)"
+        @add="add('review', id, $event.content, reviewsData)"
         @reaction="reaction('review', $event.operation, $event.id, reviewsData)"
         @completeEdit="
           edit('review', $event.id, $event.content, reviewsData);

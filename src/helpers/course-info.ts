@@ -70,7 +70,7 @@ export async function reaction(
 
 export async function add(
   target: string,
-  id: number,
+  id: string,
   content: string,
   targetArray: any[]
 ) {

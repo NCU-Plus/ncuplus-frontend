@@ -81,7 +81,7 @@
       <div class="flex justify-end">
         <button
           @click="
-            emits('add', { courseId: courseId, content: content });
+            emits('add', { content: content });
             content = '';
           "
           class="px-4 py-2 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
@@ -103,7 +103,7 @@ import { toDatetimeString } from "@/helpers/time";
 const emits = defineEmits<{
   (event: "openDropdownMenu", data: DropdownMenuOptions): void;
   (event: "closeDropdownMenu"): void;
-  (event: "add", data: { courseId: number; content: string }): void;
+  (event: "add", data: { content: string }): void;
   (event: "reaction", data: { operation: string; id: number }): void;
   (
     event: "completeEdit",
@@ -114,8 +114,7 @@ const emits = defineEmits<{
   ): void;
   (event: "cancelEdit"): void;
 }>();
-const props =
-  defineProps<{ courseId: number; reviewsData: any[]; editing: number }>();
+const props = defineProps<{ reviewsData: any[]; editing: number }>();
 const content = ref("");
 const editingContent = ref("");
 
