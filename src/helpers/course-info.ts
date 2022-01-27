@@ -286,3 +286,34 @@ export async function downloadPastExam(
     });
   }
 }
+
+export async function deletePastExam(pastExamId: number, pastExamArray: any[]) {
+  try {
+    await axios.post(
+      `${process.env.VITE_APP_API_URL}/course-info/past-exam/delete`,
+      { pastExamId: pastExamId },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    pastExamArray.splice(
+      pastExamArray.findIndex((pastExam) => pastExam.id === pastExamId),
+      1
+    );
+    store.dispatch("pushToast", {
+      type: ToastType.SUCCESS,
+      message: "刪除成功",
+    });
+  } catch (error: any) {
+    let message = "刪除時發生錯誤";
+    if (error.response.data.statusCode === 401) message = "尚未登入";
+    else if (error.response.data.statusCode === 403) message = "無此權限";
+
+    store.dispatch("pushToast", {
+      type: ToastType.ERROR,
+      message: message,
+    });
+  }
+}

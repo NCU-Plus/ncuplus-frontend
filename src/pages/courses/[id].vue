@@ -99,6 +99,7 @@
         :pastExamsData="pastExamsData"
         @upload="uploadPastExam(id, $event, pastExamsData)"
         @download="downloadPastExam($event.id, pastExamsData)"
+        @delete="deletePastExam($event.id, pastExamsData)"
       />
     </div>
     <DropdownMenu
@@ -130,6 +131,7 @@ import {
   add,
   uploadPastExam,
   downloadPastExam,
+  deletePastExam,
 } from "@/helpers/course-info";
 import PastExams from "@/components/courses/PastExams.vue";
 

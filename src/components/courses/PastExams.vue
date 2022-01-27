@@ -45,21 +45,12 @@
           <td class="py-2 text-center">
             {{ getUsernameById(pastExamData.uploaderId) }}
           </td>
-          <td
-            v-if="pastExamData.createdAt === pastExamData.updatedAt"
-            class="py-2 text-center"
-          >
+          <td class="py-2 text-center">
             {{ toDatetimeString(pastExamData.createdAt) }}
-          </td>
-          <td v-else class="py-2 text-center">
-            {{ toDatetimeString(pastExamData.updatedAt) }}
           </td>
           <td class="py-2 text-center flex space-x-2 justify-center">
             <button
-              class="p-1 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
-            >
-              編輯</button
-            ><button
+              @click="emits('delete', { id: pastExamData.id })"
               class="p-1 bg-sky-400 hover:bg-sky-500 text-white rounded-md"
             >
               刪除
@@ -114,6 +105,7 @@ const emits = defineEmits<{
     data: { year: string; description: string; file: File }
   ): void;
   (event: "download", data: { id: number }): void;
+  (event: "delete", data: { id: number }): void;
 }>();
 
 const uploading = ref(false);
