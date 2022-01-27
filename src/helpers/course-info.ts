@@ -144,6 +144,7 @@ export async function edit(
   } catch (error: any) {
     let message = "未知錯誤";
     if (error.response.data.statusCode === 401) message = "尚未登入";
+    else if (error.response.data.statusCode === 403) message = "無此權限";
 
     await store.dispatch("pushToast", {
       type: ToastType.ERROR,
@@ -188,6 +189,7 @@ export async function del(target: string, id: number, targetArray: any[]) {
   } catch (error: any) {
     let message = "未知錯誤";
     if (error.response.data.statusCode === 401) message = "尚未登入";
+    else if (error.response.data.statusCode === 403) message = "無此權限";
 
     await store.dispatch("pushToast", {
       type: ToastType.ERROR,
