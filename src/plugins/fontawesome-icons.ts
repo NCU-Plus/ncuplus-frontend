@@ -13,6 +13,8 @@ import {
   faExclamationTriangle,
   faTimes,
   faEllipsisV,
+  faCaretDown,
+  faCaretUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -29,5 +31,7 @@ library.add(faCheck);
 library.add(faExclamationTriangle);
 library.add(faTimes);
 library.add(faEllipsisV);
+library.add(faCaretDown);
+library.add(faCaretUp);
 
 export default FontAwesomeIcon;

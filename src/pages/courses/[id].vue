@@ -36,30 +36,68 @@
                   >課程綱要</a
                 >
               </td>
+              <td
+                @click="showPastCourses"
+                class="text-slate-800 cursor-pointer"
+              >
+                查看歷年相同課程<font-awesome-icon
+                  v-if="!showingPastCourses"
+                  class="ml-2"
+                  :icon="['fas', 'caret-down']"
+                />
+                <font-awesome-icon
+                  v-else
+                  class="ml-2"
+                  :icon="['fas', 'caret-up']"
+                />
+              </td>
             </tr>
           </tbody>
         </table>
-        <table class="w-3/4 h-24 text-center">
+        <table class="w-3/4 h-fit text-center">
           <tbody>
             <tr class="border-t-[1px] border-slate-300">
-              <td>學期</td>
-              <td>系所</td>
-              <td>編號</td>
-              <td>選別</td>
-              <td>修課上限</td>
-              <td>時間</td>
-              <td>密碼卡</td>
+              <td class="p-2">學期</td>
+              <td class="p-2">系所</td>
+              <td class="p-2">編號</td>
+              <td class="p-2">選別</td>
+              <td class="p-2">修課上限</td>
+              <td class="p-2">時間</td>
+              <td class="p-2">密碼卡</td>
             </tr>
             <tr class="border-t-[1px] border-slate-300">
-              <td>
+              <td class="p-2">
                 {{ courseData.year }}-{{ formatSemester(courseData.semester) }}
               </td>
-              <td>{{ courseData.departmentName }}</td>
-              <td>{{ courseData.serialNo }}</td>
-              <td>{{ formatCourseType(courseData.courseType) }}</td>
-              <td>{{ courseData.limitCnt }}</td>
-              <td>{{ courseData.classTimes }}</td>
-              <td>{{ formatPasswordCard(courseData.passwordCard) }}</td>
+              <td class="p-2">{{ courseData.departmentName }}</td>
+              <td class="p-2">{{ courseData.serialNo }}</td>
+              <td class="p-2">{{ formatCourseType(courseData.courseType) }}</td>
+              <td class="p-2">{{ courseData.limitCnt }}</td>
+              <td class="p-2">{{ courseData.classTimes }}</td>
+              <td class="p-2">
+                {{ formatPasswordCard(courseData.passwordCard) }}
+              </td>
+            </tr>
+            <tr
+              v-show="showingPastCourses"
+              v-for="pastCourseData of pastCoursesData"
+              class="border-t-[1px] border-slate-300"
+            >
+              <td class="p-2">
+                {{ pastCourseData.year }}-{{
+                  formatSemester(pastCourseData.semester)
+                }}
+              </td>
+              <td class="p-2">{{ pastCourseData.departmentName }}</td>
+              <td class="p-2">{{ pastCourseData.serialNo }}</td>
+              <td class="p-2">
+                {{ formatCourseType(pastCourseData.courseType) }}
+              </td>
+              <td class="p-2">{{ pastCourseData.limitCnt }}</td>
+              <td class="p-2">{{ pastCourseData.classTimes }}</td>
+              <td class="p-2">
+                {{ formatPasswordCard(pastCourseData.passwordCard) }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -112,7 +150,7 @@
 
 <script setup lang="ts">
 import { CourseData } from "@/components/courses/CourseData";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { onBeforeMount, reactive, ref } from "vue";
 import {
   mapCourseData,
@@ -145,6 +183,9 @@ const dropdownMenuOptions = reactive({
 } as DropdownMenuOptions);
 const editingComment = ref(0);
 const editingReview = ref(0);
+const showingPastCourses = ref(false);
+const pastCourses = [] as any[];
+const pastCoursesData = reactive([] as any[]);
 
 onBeforeMount(async () => {
   const course = await axios.get(
@@ -155,12 +196,18 @@ onBeforeMount(async () => {
     process.env.VITE_APP_API_URL +
       `/course-feedback/${courseData.value.classNo}`
   );
-  for (const commentData of courseFeedback.data.data.comments)
-    commentsData.push(commentData);
-  for (const reviewData of courseFeedback.data.data.reviews)
-    reviewsData.push(reviewData);
-  for (const pastExamData of courseFeedback.data.data.pastExams)
-    pastExamsData.push(pastExamData);
+  if (courseFeedback.data.data.comments)
+    for (const commentData of courseFeedback.data.data.comments)
+      commentsData.push(commentData);
+  if (courseFeedback.data.data.reviews)
+    for (const reviewData of courseFeedback.data.data.reviews)
+      reviewsData.push(reviewData);
+  if (courseFeedback.data.data.pastExams)
+    for (const pastExamData of courseFeedback.data.data.pastExams)
+      pastExamsData.push(pastExamData);
+  if (courseFeedback.data.data.courseInfos)
+    for (const pastCourse of courseFeedback.data.data.courseInfos)
+      pastCourses.push(pastCourse);
 });
 
 function openDropdownMenu(data: DropdownMenuOptions) {
@@ -183,5 +230,23 @@ function dele() {
   if (dropdownMenuOptions.type === "comment")
     del(dropdownMenuOptions.type, dropdownMenuOptions.id, commentsData);
   else del(dropdownMenuOptions.type, dropdownMenuOptions.id, reviewsData);
+}
+
+async function showPastCourses() {
+  showingPastCourses.value = !showingPastCourses.value;
+  if (showingPastCourses.value && pastCoursesData.length === 0) {
+    const tasks: Promise<AxiosResponse<any, any>>[] = [];
+    for (const pastCourse of pastCourses) {
+      if (pastCourse.courseId != props.id)
+        tasks.push(
+          axios.get(
+            process.env.VITE_APP_API_URL + `/courses/${pastCourse.courseId}`
+          )
+        );
+    }
+    for (const data of await Promise.all(tasks)) {
+      pastCoursesData.push({ ...(await mapCourseData([data.data.data]))[0] });
+    }
+  }
 }
 </script>
