@@ -5,7 +5,7 @@
       :style="{ 'background-image': `url(${loginBg})` }"
     ></div>
     <div
-      class="w-1/2 h-1/2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-around items-center bg-white rounded-xl"
+      class="w-11/12 md:w-1/2 h-1/2 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-around items-center bg-white rounded-xl"
     >
       <div>
         <h1 class="font-black text-6xl text-center">NCU+</h1>
