@@ -70,7 +70,7 @@
         :editing="editingComment"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
-        @add="add('comment', id, $event.content, commentsData)"
+        @add="add('comment', courseData.classNo, $event.content, commentsData)"
         @reaction="
           reaction('comment', $event.operation, $event.id, commentsData)
         "
@@ -86,7 +86,7 @@
         :editing="editingReview"
         @openDropdownMenu="openDropdownMenu"
         @closeDropdownMenu="dropdownMenuOptions.show = false"
-        @add="add('review', id, $event.content, reviewsData)"
+        @add="add('review', courseData.classNo, $event.content, reviewsData)"
         @reaction="reaction('review', $event.operation, $event.id, reviewsData)"
         @completeEdit="
           edit('review', $event.id, $event.content, reviewsData);
@@ -97,7 +97,7 @@
       <!--past exams-->
       <PastExams
         :pastExamsData="pastExamsData"
-        @upload="uploadPastExam(id, $event, pastExamsData)"
+        @upload="uploadPastExam(courseData.classNo, $event, pastExamsData)"
         @download="downloadPastExam($event.id, pastExamsData)"
         @delete="deletePastExam($event.id, pastExamsData)"
       />
@@ -132,7 +132,7 @@ import {
   uploadPastExam,
   downloadPastExam,
   deletePastExam,
-} from "@/helpers/course-info";
+} from "@/helpers/course-feedback";
 import PastExams from "@/components/courses/PastExams.vue";
 
 const props = defineProps<{ id: string }>();
@@ -151,14 +151,15 @@ onBeforeMount(async () => {
     process.env.VITE_APP_API_URL + `/courses/${props.id}`
   );
   courseData.value = { ...(await mapCourseData([course.data.data]))[0] };
-  const courseInfo = await axios.get(
-    process.env.VITE_APP_API_URL + `/course-info/${props.id}`
+  const courseFeedback = await axios.get(
+    process.env.VITE_APP_API_URL +
+      `/course-feedback/${courseData.value.classNo}`
   );
-  for (const commentData of courseInfo.data.data.comments)
+  for (const commentData of courseFeedback.data.data.comments)
     commentsData.push(commentData);
-  for (const reviewData of courseInfo.data.data.reviews)
+  for (const reviewData of courseFeedback.data.data.reviews)
     reviewsData.push(reviewData);
-  for (const pastExamData of courseInfo.data.data.pastExams)
+  for (const pastExamData of courseFeedback.data.data.pastExams)
     pastExamsData.push(pastExamData);
 });
 

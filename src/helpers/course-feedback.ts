@@ -11,7 +11,8 @@ export async function reaction(
     let response: AxiosResponse<any, any>;
     if (target === "comment")
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/${operation}`,
+        process.env.VITE_APP_API_URL +
+          `/course-feedback/${target}/${operation}`,
         { commentId: id },
         {
           headers: {
@@ -21,7 +22,8 @@ export async function reaction(
       );
     else
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/${operation}`,
+        process.env.VITE_APP_API_URL +
+          `/course-feedback/${target}/${operation}`,
         { reviewId: id },
         {
           headers: {
@@ -70,15 +72,15 @@ export async function reaction(
 
 export async function add(
   target: string,
-  id: string,
+  classNo: string,
   content: string,
   targetArray: any[]
 ) {
   if (content === "") return;
   try {
     let response = await axios.post(
-      process.env.VITE_APP_API_URL + `/course-info/${target}`,
-      { courseId: id, content: content },
+      process.env.VITE_APP_API_URL + `/course-feedback/${target}`,
+      { classNo: classNo, content: content },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -114,7 +116,7 @@ export async function edit(
     let response: AxiosResponse<any, any>;
     if (target === "comment")
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/edit`,
+        process.env.VITE_APP_API_URL + `/course-feedback/${target}/edit`,
         { commentId: id, content: content },
         {
           headers: {
@@ -124,7 +126,7 @@ export async function edit(
       );
     else
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/edit`,
+        process.env.VITE_APP_API_URL + `/course-feedback/${target}/edit`,
         { reviewId: id, content: content },
         {
           headers: {
@@ -158,7 +160,7 @@ export async function del(target: string, id: number, targetArray: any[]) {
     let response: AxiosResponse<any, any>;
     if (target === "comment")
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/delete`,
+        process.env.VITE_APP_API_URL + `/course-feedback/${target}/delete`,
         { commentId: id },
         {
           headers: {
@@ -168,7 +170,7 @@ export async function del(target: string, id: number, targetArray: any[]) {
       );
     else
       response = await axios.post(
-        process.env.VITE_APP_API_URL + `/course-info/${target}/delete`,
+        process.env.VITE_APP_API_URL + `/course-feedback/${target}/delete`,
         { reviewId: id },
         {
           headers: {
@@ -199,7 +201,7 @@ export async function del(target: string, id: number, targetArray: any[]) {
 }
 
 export async function uploadPastExam(
-  courseId: string,
+  classNo: string,
   uploadData: {
     year: string;
     description: string;
@@ -219,13 +221,13 @@ export async function uploadPastExam(
     return;
   }
   const formdata = new FormData();
-  formdata.append("courseId", courseId);
+  formdata.append("classNo", classNo);
   formdata.append("file", uploadData.file);
   formdata.append("year", uploadData.year);
   formdata.append("description", uploadData.description);
   try {
     const resp = await axios.post(
-      process.env.VITE_APP_API_URL + `/course-info/past-exam/upload`,
+      process.env.VITE_APP_API_URL + `/course-feedback/past-exam/upload`,
       formdata,
       {
         headers: {
@@ -256,7 +258,7 @@ export async function downloadPastExam(
 ) {
   try {
     const resp = await axios.get(
-      `${process.env.VITE_APP_API_URL}/course-info/past-exam/${pastExamId}`,
+      `${process.env.VITE_APP_API_URL}/course-feedback/past-exam/${pastExamId}`,
       {
         responseType: "blob",
         headers: {
@@ -290,7 +292,7 @@ export async function downloadPastExam(
 export async function deletePastExam(pastExamId: number, pastExamArray: any[]) {
   try {
     await axios.post(
-      `${process.env.VITE_APP_API_URL}/course-info/past-exam/delete`,
+      `${process.env.VITE_APP_API_URL}/course-feedback/past-exam/delete`,
       { pastExamId: pastExamId },
       {
         headers: {
