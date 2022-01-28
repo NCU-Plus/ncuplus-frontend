@@ -59,9 +59,12 @@
         </tr>
       </tbody>
     </table>
-    <div class="w-full flex mb-4 justify-end">
+    <div class="w-full flex flex-col md:flex-row mb-4 space-y-2 justify-end">
       <transition name="form-fade">
-        <div v-show="uploading" class="flex space-x-4 items-center mx-4">
+        <div
+          v-show="uploading"
+          class="flex flex-col md:flex-row space-y-2 md:space-x-4 items-center mx-4"
+        >
           <input
             v-model="uploadData.year"
             class="pl-2 rounded-sm"

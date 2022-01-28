@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-6 h-full mx-8 cursor-pointer open-dropdown-menu"
+    class="w-6 h-full mx-2 md:mx-8 cursor-pointer open-dropdown-menu"
     @click="emits('openDropdownMenu', $event)"
     v-click-outside="listener"
   >

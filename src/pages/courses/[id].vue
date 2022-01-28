@@ -13,7 +13,7 @@
           <font-awesome-icon :icon="['fa', 'book']" size="lg" />
           <strong class="text-2xl">課程資訊</strong>
         </h3>
-        <table class="w-1/3 h-24">
+        <table class="w-full md:w-1/3 h-24">
           <tbody>
             <tr>
               <td>
@@ -54,7 +54,7 @@
             </tr>
           </tbody>
         </table>
-        <table class="w-3/4 h-fit text-center">
+        <table class="w-full md:w-3/4 h-fit text-center">
           <tbody>
             <tr class="border-t-[1px] border-slate-300">
               <td class="p-2">學期</td>

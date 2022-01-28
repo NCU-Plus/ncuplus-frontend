@@ -30,7 +30,7 @@
               ></textarea>
               <div
                 v-else
-                class="flex space-x-2 justify-center mx-8 mt-4 my-auto"
+                class="flex space-x-2 justify-center mx-2 md:mx-8 mt-4 my-auto"
               >
                 <a class="text-sky-600">{{
                   getUsernameById(commentData.authorId)
@@ -46,7 +46,10 @@
             >
               按Shift+Enter送出，或按Esc取消
             </div>
-            <div v-else class="flex space-x-2 items-center mx-8 text-gray-600">
+            <div
+              v-else
+              class="flex justify-between md:justify-start space-x-2 items-center mx-2 md:mx-8 text-gray-600"
+            >
               <p v-if="commentData.createdAt === commentData.updatedAt">
                 {{ toDatetimeString(new Date(commentData.createdAt)) }}
               </p>
