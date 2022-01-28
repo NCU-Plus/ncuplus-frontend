@@ -1,5 +1,5 @@
 <template>
-  <form class="">
+  <form class="w-full flex flex-col items-center">
     <div class="flex my-6 justify-center">
       <input
         @keypress.enter.prevent
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div id="searchOptions" v-show="advanceSearch" class="flex my-6 space-x-2">
-      <div class="w-32 h-10">
+      <div class="w-2/5 md:w-32 h-10">
         <select
           v-model="searchOptions.semester"
           class="pl-4 pr-9 py-0 w-full h-full"
@@ -31,7 +31,7 @@
           </option>
         </select>
       </div>
-      <div class="w-96 h-10">
+      <div class="w-3/5 md:w-96 h-10">
         <select
           v-model="searchOptions.department"
           class="pl-4 pr-9 py-0 w-full h-full"
