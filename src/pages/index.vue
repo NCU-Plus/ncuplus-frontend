@@ -19,19 +19,29 @@
       </div>
     </fullpage-header>
     <section class="h-screen w-full bg-white">
-      <h1 class="relative top-10 text-lg font-bold text-center">Features</h1>
-      <div class="center-container w-full flex items-center justify-center">
-        <section class="flex items-center justify-center">
-          <img src="@/assets/features_chart.png" class="w-44 h-44">
-          <section class="text-left">
-            <h3 class="text-center font-bold">大量選課心得</h3>
-            <p class="text-left">
-              能夠藉由宛如選課系統般的查找方式，尋找到目標課程。
-              <br>
-              現在不用再CTRL+F了，在網站中一次找出所有你想要的!
-            </p>
-          </section>
-        </section>
+      <div
+        class="center-container w-full flex flex-col space-y-12 items-center"
+      >
+        <h1 class="mt-20 text-4xl font-bold text-center">Features</h1>
+        <div class="w-full overflow-x-scroll md:overflow-x-hidden">
+          <div class="w-fit md:w-full mx-auto flex justify-center flex-nowrap">
+            <router-link class="w-72 md:w-1/5" to="/courses">
+              <div
+                class="w-full flex flex-col space-y-8 items-center justify-center hover:bg-gray-200"
+              >
+                <img src="@/assets/features_chart.png" class="w-44 h-44" />
+                <div class="flex flex-col space-y-2 text-left px-8 pb-4">
+                  <h3 class="text-center font-bold text-xl">大量選課心得</h3>
+                  <p class="text-left">
+                    能夠藉由宛如選課系統般的查找方式，尋找到目標課程。
+                    <br />
+                    現在不用再CTRL+F了，在網站中一次找出所有你想要的!
+                  </p>
+                </div>
+              </div></router-link
+            >
+          </div>
+        </div>
       </div>
     </section>
     <section class="h-96 w-full bg-slate-800 flex items-center">
@@ -40,9 +50,9 @@
           <h1 class="text-2xl">About NCU+</h1>
           <p class="mt-5">
             NCU+是中大非官方的資訊網站
-            <br>
+            <br />
             發想於排課過程中查找資訊的困難，因而期望有彙整資訊的網頁。
-            <br>
+            <br />
             期望獲得portal簽入的權限，以降低切換使用學校網頁與NCU+的成本。
           </p>
         </div>
